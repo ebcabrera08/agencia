@@ -1,0 +1,6 @@
+C:\Users\Administrador\Desktop\AgenciaBancaria\AgenciaBancaria\AgenciaBancaria\bin\Debug\AgenciaBancaria.exe.config
+C:\Users\Administrador\Desktop\AgenciaBancaria\AgenciaBancaria\AgenciaBancaria\bin\Debug\AgenciaBancaria.exe
+C:\Users\Administrador\Desktop\AgenciaBancaria\AgenciaBancaria\AgenciaBancaria\bin\Debug\AgenciaBancaria.pdb
+C:\Users\Administrador\Desktop\AgenciaBancaria\AgenciaBancaria\AgenciaBancaria\obj\Debug\AgenciaBancaria.csprojResolveAssemblyReference.cache
+C:\Users\Administrador\Desktop\AgenciaBancaria\AgenciaBancaria\AgenciaBancaria\obj\Debug\AgenciaBancaria.exe
+C:\Users\Administrador\Desktop\AgenciaBancaria\AgenciaBancaria\AgenciaBancaria\obj\Debug\AgenciaBancaria.pdb
