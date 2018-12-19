@@ -48,6 +48,10 @@ namespace AgenciaBancaria
             get { return _cantidadDepositada; }
             set { _cantidadDepositada = value; }
         }
-       
+        public override string ToString()
+        {
+           // return string.Format("Nombre: " + _nombre + "No. Identificación: " + _noIdentificacion + " Especialidad: " + _especialidad + " Años Experiencia: " + _aExperiencia + " Edad: " + _edad + " Sexo: " + _sexo);
+            return "";
+        }
     }
 }

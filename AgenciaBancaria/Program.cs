@@ -20,9 +20,7 @@ namespace AgenciaBancaria
         {
             
             //variables
-            var menu = new Menu();
-            List<Cuenta> cuenta = new List<Cuenta>();
-            List<Trabajador> trabajador = new List<Trabajador>();
+            var menu = new Menu();            
             Agencia agencia = new Agencia();
             string opcion = "";
 
@@ -80,11 +78,15 @@ namespace AgenciaBancaria
                             cuentaAux.NombrePropietario = Console.ReadLine();
                             Console.WriteLine("Entre tipo de cuenta (A)-(B)-(C) ");
                             cuentaAux.TipoCuenta = Convert.ToChar(Console.ReadLine());//convertir de string a char 
+                            Console.WriteLine("Entre fecha de apertura ");
+                            cuentaAux.FechaCreada = Console.ReadLine();//convertir de string a char 
                             Console.WriteLine("Entre cantidad depositada ");
                             cuentaAux.CantidadDepositada = Convert.ToDouble(Console.ReadLine());//convertir a double
+
+
                             agencia.Cuenta.Add(cuentaAux);//agregar cuenta a la lista
                             //ordenando la lista
-                            agencia.Cuenta=agencia.Cuenta.OrderByDescending(cu => cu.CantidadDepositada).ToList();
+                            agencia.Cuenta=agencia.Cuenta.OrderByDescending(hj => hj.CantidadDepositada).Reverse().ToList();
                         }
                         catch (Exception e) {
                             Console.WriteLine("Error de formato, intente de nuevo ");
@@ -121,6 +123,15 @@ namespace AgenciaBancaria
                             auxTrabaja.Edad = Convert.ToInt32(Console.ReadLine());
                             Console.WriteLine("Entre años de experiencia del trabajador");
                             auxTrabaja.AExperiencia = Convert.ToInt32(Console.ReadLine());
+                            //poner validaciones edad annos de experiencia
+                            if (auxTrabaja.AExperiencia < auxTrabaja.Edad - 15)
+                            {
+                                Console.WriteLine("Años de experiencia invalido");
+                                
+                                break;
+                                
+                            }
+
                             agencia.Trabajador.Add(auxTrabaja);
                         }
                         catch (Exception e) {
@@ -180,6 +191,7 @@ namespace AgenciaBancaria
                             }
                             Cuenta cuentaAux2 = new Cuenta();
                             cuentaAux2.CantidadDepositada = 0;
+                            Console.Clear();
                             foreach (Cuenta cuent in agencia.Cuenta)
                             {
                                 if (cuentaAux2.CantidadDepositada > 0 && (cuent.TipoCuenta == 'A' || cuent.TipoCuenta == 'a'))
@@ -244,6 +256,41 @@ namespace AgenciaBancaria
                             Console.WriteLine("Formato de valor incorrecto");
                             break;
                         }
+                    case "7":
+                        //Dado un valor, (especialidad estudiada y años de experiencia) obtener trabajadores
+                        List<int> posicionesC = new List<int>();
+                        var tipoCuent = "";
+                       
+
+                        Console.WriteLine("  ****BUSCAR CUENTAS*****  ");
+                        Console.WriteLine("Entre tipo Cuenta:");
+                        tipoCuent = Console.ReadLine();                        
+                        try
+                        {
+                            for (int i = 0; i < agencia.Cuenta.Count; i++)
+                            {
+                                if (agencia.Cuenta[i].TipoCuenta == Convert.ToChar(tipoCuent))
+                                {
+                                    posicionesC.Add(i);
+                                }
+                            }
+                            if (posicionesC.Count < 1)
+                                Console.WriteLine("No se enontraron Cuentas de este tipo");
+                            else
+                            {
+                                foreach (int pos1 in posicionesC)
+                                    Console.WriteLine(agencia.Cuenta[pos1].ToString());
+
+                                /* for (int i=0;i<posiciones.Count;i++)
+                                     Console.WriteLine(agencia.Trabajador[posiciones[i]].ToString());*/
+                            }
+                        }
+                        catch (Exception e)
+                        {
+
+                            Console.WriteLine("Error de formato en Años de experiencia " + e.Message);
+                        }
+                        break;
                     case "8":
                         //Dado un valor, (especialidad estudiada y años de experiencia) obtener trabajadores
                          List<int> posiciones = new List<int>();
@@ -255,18 +302,28 @@ namespace AgenciaBancaria
                         espec= Console.ReadLine();
                         Console.WriteLine("Entre años de experiencia del trabajador:");
                         annosE = Console.ReadLine();
-                        
-                        for (int i = 0; i < agencia.Trabajador.Count; i++) {
-                            if (agencia.Trabajador[i].Especialidad == espec && agencia.Trabajador[i].AExperiencia == Convert.ToInt32(annosE))
+                        try
+                        {
+                            for (int i = 0; i < agencia.Trabajador.Count; i++)
                             {
-                                posiciones.Add(i);
+                                if (agencia.Trabajador[i].Especialidad == espec && agencia.Trabajador[i].AExperiencia == Convert.ToInt32(annosE))
+                                {
+                                    posiciones.Add(i);
+                                }
                             }
-                         }
-                        if (posiciones.Count < 1)
-                            Console.WriteLine("No se enontraron trabajadores para estos valores");
-                        else { 
-                           foreach(int pos1 in posiciones)
-                               Console.WriteLine(agencia.Trabajador[pos1]);
+                            if (posiciones.Count < 1)
+                                Console.WriteLine("No se enontraron trabajadores para estos valores");
+                            else
+                            {
+                                foreach (int pos1 in posiciones)
+                                    Console.WriteLine(agencia.Trabajador[pos1].ToString());
+
+                               /* for (int i=0;i<posiciones.Count;i++)
+                                    Console.WriteLine(agencia.Trabajador[posiciones[i]].ToString());*/
+                            }
+                        }catch(Exception e){
+                        
+                         Console.WriteLine("Error de formato en Años de experiencia "+e.Message);
                         }
                             break;
                     case "9":
@@ -278,21 +335,25 @@ namespace AgenciaBancaria
                         }
                         
                         var cuentaNo = "";
-                        Cuenta pos = new Cuenta();
+                        Cuenta cuentaBorrar = new Cuenta();
                         Console.WriteLine("****ELIMINAR CUENTA");
                         Console.WriteLine("Entre el numero de la cuenta o escriba X para cancelar..");
                         cuentaNo = Console.ReadLine();
+                        //toupper convierte todo a mayuscula
                         if (cuentaNo.ToUpper() == "X")
                             break;
                       
                         for (int i = 0; i < agencia.Cuenta.Count; i++)
                         {
                             if (agencia.Cuenta[i].NumeroCuenta == cuentaNo)
-                                pos = agencia.Cuenta[i];
+                            {
+                                cuentaBorrar = agencia.Cuenta[i];
+                                break;
+                            }
                         }
-                        if (pos.NumeroCuenta != null)
+                        if (cuentaBorrar.NumeroCuenta != null)
                         {
-                            agencia.Cuenta.Remove(pos);
+                            agencia.Cuenta.Remove(cuentaBorrar);
                             Console.WriteLine("**** Cuenta eliminada correctamente ***** ");
                         }
                         else
@@ -333,7 +394,7 @@ namespace AgenciaBancaria
                             var elimA = "";
                             if (agencia.Nombre=="")
                             {
-                                Console.WriteLine("!!!NO EXISTE CUENTA AUN!!");
+                                Console.WriteLine("!!!NO EXISTE AGENCIA AUN!!");
                                 break;
                             }
                             Console.WriteLine("Está a punto de eliminar la AGENCIA");
